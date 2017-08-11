@@ -1,1 +1,9 @@
-This is a profile page.
+{% if profile_list %}
+	<ul>
+	{% for profile in profile_list %}
+		<li><a href="{% url 'profiles:profile' profile.id %}"><h3>{{ profile.username }}</h3></a></li>
+	{% endfor %}
+	</ul>
+{% else %}
+	<p>Nobody home.</p>
+{% endif %}

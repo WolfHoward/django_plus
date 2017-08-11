@@ -1,1 +1,13 @@
-This is the profile index page.
+ {{ username }}
+<h1>{{ first_name}} {{ last_name }}</h1>
+<h4>{{ discipline }}</h4>
+{% if paired %}
+	Unavailable
+{% else %}
+	<p style="color:#00FF00;"><strong>Available!</strong></color="green">
+{% endif %}
+<p><img src="#" alt="A picture would go here." />
+
+<p><strong>Email:</strong> {{ email }}</p>
+<p><strong>Joined:</strong> {{ join_date.year }}</p>
+
