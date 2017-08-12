@@ -19,8 +19,8 @@ class IndexView(generic.ListView):
 
 # 	return render(request, 'profiles/index.html', context)
 
-def profile(request, user_id):
 
+def profile(request, user_id):
 	profile = get_object_or_404(Profile, pk=user_id)
 
 	context = {
