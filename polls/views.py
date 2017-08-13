@@ -1,5 +1,5 @@
 from django.db.models import F
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpRequest
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.utils import timezone
@@ -14,10 +14,12 @@ class IndexView(generic.ListView):
 
 	def get_queryset(self):
 		"""Return the last five published questions"""
-		return Question.objects.filter(
-			pub_date__lte=timezone.now()
-			).order_by('-pub_date')[:5]
-		return Question.objects.order_by('-pub_date')[:5]
+		if Question.objects.filter(choice=True):
+			return Question.objects.filter(
+				pub_date__lte=timezone.now(),
+				).order_by('-pub_date')[:5]
+
+		#return Question.objects.order_by('-pub_date')[:5]
 
 
 # Display question and set of choices associated with that question.
@@ -37,6 +39,11 @@ class ResultsView(generic.DetailView):
 	model = Question
 	template_name = 'polls/results.html'
 
+	def get_queryset(self):
+		"""
+		Excludes any questions that aren't published yet.
+		"""
+		return Question.objects.filter(pub_date__lte=timezone.now())
 
 # Allow user to submit a vote, which will be recorded to the database.
 def vote(request, question_id):
